@@ -1,0 +1,9 @@
+target
+.git
+.tools
+.idea
+.vscode
+.env
+artifacts
+*.log
+

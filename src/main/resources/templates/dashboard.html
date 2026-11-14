@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>University Management System</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/dashboard.js" defer></script>
+</head>
+<body hidden>
+<div class="app-shell">
+    <aside class="sidebar">
+        <a href="/" class="brand">University Management System</a>
+        <nav aria-label="Main navigation" class="main-nav">
+            <button type="button" class="nav-link" data-section="students" hidden>
+                Students <span class="nav-count" id="nav-students">0</span>
+            </button>
+            <button type="button" class="nav-link" data-section="teachers" hidden>
+                Teachers <span class="nav-count" id="nav-teachers">0</span>
+            </button>
+            <button type="button" class="nav-link" data-section="admins" hidden>
+                Admins <span class="nav-count" id="nav-admins">0</span>
+            </button>
+        </nav>
+        <div class="sidebar-bottom">
+            <div class="account">
+                <div><strong id="current-user-name"></strong><small id="current-user-role"></small></div>
+            </div>
+            <button id="logout-button" class="button secondary" type="button">Logout</button>
+        </div>
+    </aside>
+    <div class="main-shell">
+        <main class="content">
+            <div class="page-heading"><div><h1 id="page-title">Students</h1><p id="page-description">Manage student records.</p></div><button type="button" class="button primary" id="add-button" hidden><span id="add-label">Add student</span></button></div>
+            <div class="stats-grid" id="stats-grid" aria-label="Directory totals"></div>
+            <section class="directory-card" aria-labelledby="directory-title">
+                <div class="directory-toolbar"><div class="directory-heading"><h2 id="directory-title">All students</h2><span class="count-badge" id="record-count">0</span></div><div class="search-wrap"><input id="search" type="search" placeholder="Search students..." aria-label="Search records" maxlength="150"></div></div>
+                <div id="page-error" class="notice error table-notice" role="alert" hidden></div>
+                <div class="table-scroll"><table><thead><tr><th scope="col">NAME</th><th scope="col">USERNAME</th><th scope="col">DEPARTMENT</th><th scope="col">ROLE</th><th scope="col" class="actions-heading">ACTIONS</th></tr></thead><tbody id="records"></tbody></table></div>
+                <div class="empty-state" id="empty-state" hidden><h3 id="empty-title">No records yet</h3><p id="empty-description">Add your first record to get started.</p></div>
+                <div class="table-footer"><span id="table-summary" aria-live="polite">Loading records...</span></div>
+            </section>
+            <footer class="page-footer">CSE 3230 - Lab 04</footer>
+        </main>
+    </div>
+</div>
+
+<dialog id="user-dialog" aria-labelledby="dialog-title">
+    <form id="user-form">
+        <div class="dialog-header"><h2 id="dialog-title">Add student</h2><button type="button" class="button secondary" data-close="user-dialog" aria-label="Close form">Close</button></div>
+        <div class="dialog-body">
+            <p class="dialog-description">Fill in the details below. All fields are required unless marked optional.</p>
+            <div id="form-error" class="notice error" role="alert" hidden></div>
+            <div class="form-grid">
+                <div class="form-field full"><label for="field-name">Full name</label><input id="field-name" name="name" required maxlength="100" autocomplete="name" placeholder="e.g. Arif Rahman"></div>
+                <div class="form-field"><label for="field-username">Username</label><input id="field-username" name="username" required minlength="3" maxlength="40" pattern="[a-zA-Z0-9_.\-]{3,40}" autocomplete="off" placeholder="e.g. arif.rahman"><small>3-40 letters, numbers, dots, underscores or hyphens</small></div>
+                <div class="form-field"><label for="field-email">Email address</label><input id="field-email" name="email" type="email" required maxlength="128" autocomplete="email" placeholder="name@stud.kuet.ac.bd" aria-describedby="email-help"><small id="email-help"></small></div>
+                <div class="form-field full"><label for="field-department">Department</label><input id="field-department" name="department" required maxlength="80" list="departments" placeholder="e.g. Computer Science"><datalist id="departments"><option value="Computer Science"></option><option value="Electrical Engineering"></option><option value="Business Administration"></option><option value="Civil Engineering"></option><option value="Administration"></option></datalist></div>
+                <div class="form-field full"><label for="field-password" id="password-label">Password</label><input id="field-password" name="password" type="password" minlength="8" maxlength="72" autocomplete="new-password" placeholder="At least 8 characters"><small id="password-help">The new user will sign in with this password.</small></div>
+            </div>
+        </div>
+        <div class="dialog-footer"><button type="button" class="button secondary" data-close="user-dialog">Cancel</button><button type="submit" class="button primary" id="save-button">Create record</button></div>
+    </form>
+</dialog>
+<dialog id="delete-dialog" class="small-dialog" aria-labelledby="delete-title">
+    <div class="dialog-header"><h2 id="delete-title">Delete record?</h2><button type="button" class="button secondary" data-close="delete-dialog" aria-label="Close confirmation">Close</button></div>
+    <div class="dialog-body"><p id="delete-description"></p><div class="notice error" id="delete-error" role="alert" hidden></div></div>
+    <div class="dialog-footer"><button type="button" class="button secondary" data-close="delete-dialog">Cancel</button><button type="button" class="button danger" id="confirm-delete">Delete record</button></div>
+</dialog>
+<div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>
+
