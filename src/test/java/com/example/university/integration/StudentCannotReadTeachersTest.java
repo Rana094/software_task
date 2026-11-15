@@ -12,6 +12,6 @@ class StudentCannotReadTeachersTest extends StudentApiTestSupport {
 
         // The student is signed in but lacks permission to read teacher data.
         mvc.perform(get("/api/teachers").header("Authorization", token))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 }
